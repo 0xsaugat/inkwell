@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  APP_URL: http://localhost:3000
+  DATABASE_URL: postgresql://inkwell:inkwell@localhost:5433/inkwell
+  SESSION_SECRET: ci-only-session-secret-change-before-deploying-0123456789
+  AUTH_COOKIE_NAME: inkwell_session
+  SESSION_TTL_DAYS: '30'
+  INTERNAL_API_SECRET: ci-only-internal-secret-change-before-deploying-0123456789
+  COLLAB_PORT: '1234'
+  NEXT_PUBLIC_COLLAB_URL: ws://localhost:1234
+  S3_ENDPOINT: http://localhost:9000
+  S3_REGION: us-east-1
+  S3_ACCESS_KEY_ID: minioadmin
+  S3_SECRET_ACCESS_KEY: minioadmin
+  S3_BUCKET: inkwell
+  SMTP_HOST: localhost
+  SMTP_PORT: '1025'
+  SMTP_FROM: hello@inkwell.local
+
+jobs:
+  quality:
+    name: Lint, typecheck, unit tests, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm test
+      - run: pnpm build
+      - run: pnpm audit --prod --audit-level=high
+
+  e2e:
+    name: End-to-end (Chromium)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: inkwell
+          POSTGRES_PASSWORD: inkwell
+          POSTGRES_DB: inkwell
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U inkwell -d inkwell"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm e2e
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 7

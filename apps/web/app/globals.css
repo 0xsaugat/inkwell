@@ -1,0 +1,99 @@
+@import 'tailwindcss';
+
+@theme inline {
+  --font-sans: var(--font-instrument);
+  --font-serif: var(--font-fraunces);
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+}
+
+:root {
+  --font-instrument: 'Instrument Sans Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-fraunces: 'Fraunces Variable', ui-serif, Georgia, serif;
+  --paper: #f4efe5;
+  --paper-raised: #fbf8f1;
+  --ink: #1b2430;
+  --ink-soft: #5d665f;
+  --line: #d8d0bf;
+  --accent: #345b63;
+  --accent-soft: #dce8e4;
+  --success: #2f6f4f;
+  --danger: #a14b3d;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #12181a;
+    --paper-raised: #182023;
+    --ink: #e9e3d6;
+    --ink-soft: #a9b2ac;
+    --line: #2c3938;
+    --accent: #8db6b1;
+    --accent-soft: #1e3331;
+    --success: #7ec49c;
+    --danger: #e08a7c;
+    color-scheme: dark;
+  }
+}
+
+html {
+  background: var(--paper);
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-instrument);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+.ink-grid {
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--line) 55%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--line) 55%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 20%, black 20%, transparent 75%);
+}
+
+.ink-wash {
+  background:
+    radial-gradient(ellipse 55% 45% at 82% 8%, var(--accent-soft), transparent 65%),
+    radial-gradient(
+      ellipse 40% 35% at 5% 90%,
+      color-mix(in srgb, var(--accent-soft) 70%, transparent),
+      transparent 70%
+    );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
