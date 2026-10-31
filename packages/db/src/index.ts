@@ -1,4 +1,5 @@
 export * from './client'
 export * from './env'
 export * from './load-env'
+export * from './migrations'
 export * as schema from './schema'

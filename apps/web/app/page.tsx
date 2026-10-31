@@ -26,9 +26,23 @@ export default async function Home() {
           </span>
           <span className="text-sm font-semibold uppercase tracking-[0.22em]">Inkwell</span>
         </div>
-        <span className="rounded-full border border-line bg-paper-raised/80 px-3 py-1 text-xs font-medium uppercase tracking-[0.16em] text-ink-soft">
-          Foundations · M0
-        </span>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <span className="hidden rounded-full border border-line bg-paper-raised/80 px-3 py-1 text-xs font-medium uppercase tracking-[0.16em] text-ink-soft md:inline-flex">
+            Private preview · M1
+          </span>
+          <a
+            href="/signin"
+            className="rounded-full px-3.5 py-2 text-sm font-medium text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          >
+            Sign in
+          </a>
+          <a
+            href="/signup"
+            className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-paper transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+          >
+            Get started
+          </a>
+        </div>
       </header>
 
       <section className="relative mx-auto grid w-full max-w-6xl gap-14 pb-20 pt-20 lg:grid-cols-[1.5fr_0.82fr] lg:items-end lg:pt-32">
@@ -49,14 +63,20 @@ export default async function Home() {
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <a
               className="group inline-flex items-center gap-3 rounded-full bg-ink px-5 py-3 text-sm font-medium text-paper transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-              href="/api/health"
+              href="/signup"
             >
-              Inspect system health
+              Create your workspace
               <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
                 →
               </span>
             </a>
-            <span className="text-sm text-ink-soft">Web, database, and realtime foundations</span>
+            <a
+              className="rounded-full border border-line px-5 py-3 text-sm font-medium text-ink-soft transition-colors hover:border-ink-soft hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              href="/signin"
+            >
+              Sign in
+            </a>
+            <span className="text-sm text-ink-soft">Free while in private preview</span>
           </div>
         </div>
 
@@ -105,7 +125,7 @@ export default async function Home() {
 
           <p className="mt-5 text-xs leading-5 text-ink-soft">
             {online
-              ? `Last checked ${checkedAt}. Collaboration, canvas, and databases land in the next milestones.`
+              ? `Last checked ${checkedAt}. Accounts and workspaces are live; collaboration, canvas, and databases follow.`
               : 'Start the local services with docker compose up -d, then reload this page.'}
           </p>
         </aside>
@@ -113,7 +133,7 @@ export default async function Home() {
 
       <footer className="relative mx-auto flex w-full max-w-6xl flex-col gap-3 border-t border-line pt-6 text-xs text-ink-soft sm:flex-row sm:items-center sm:justify-between">
         <p>Inkwell · notes for the messy middle</p>
-        <p>Milestone 0 · Foundations</p>
+        <p>Milestone 1 · Auth and workspaces</p>
       </footer>
     </main>
   )
