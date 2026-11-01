@@ -60,7 +60,7 @@ export default async function WorkspacesPage() {
                 >
                   {workspaces.length === 1 ? '1 workspace' : `${workspaces.length} workspaces`}
                 </h2>
-                <p className="text-xs text-ink-soft">M1 · Auth and workspaces</p>
+                <p className="text-xs text-ink-soft">M2 · Hierarchy</p>
               </div>
               <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {workspaces.map((workspace) => (
@@ -71,9 +71,10 @@ export default async function WorkspacesPage() {
           )}
 
           <div className="mt-16 rounded-2xl border border-line bg-paper-raised/60 p-6 text-sm leading-6 text-ink-soft">
-            <strong className="font-medium text-ink">What is next:</strong> notebooks, colored
-            sections, and nested pages arrive in milestone M2. For now, bring your people in and
-            make the workspace feel like yours.
+            <strong className="font-medium text-ink">What is next:</strong> the Flow editor —
+            blocks, slash commands, page links, and collaborative editing — arrives in milestone
+            M3. Notebooks, sections, nested pages, favorites, and trash are ready inside every
+            workspace.
           </div>
         </main>
       </div>

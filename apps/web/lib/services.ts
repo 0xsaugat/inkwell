@@ -1,9 +1,11 @@
 import {
   createAuthService,
+  createHierarchyService,
   createSmtpMailer,
   createWorkspaceService,
   getEnv,
   type AuthService,
+  type HierarchyService,
   type WorkspaceService,
 } from '@inkwell/core'
 import { getDb } from '@inkwell/db'
@@ -11,6 +13,7 @@ import { getDb } from '@inkwell/db'
 type Services = {
   auth: AuthService
   workspaces: WorkspaceService
+  hierarchy: HierarchyService
 }
 
 const globalForServices = globalThis as typeof globalThis & {
@@ -29,6 +32,7 @@ export function getServices(): Services {
     globalForServices.__inkwellServices = {
       auth: createAuthService(deps),
       workspaces: createWorkspaceService(deps),
+      hierarchy: createHierarchyService(deps),
     }
   }
 
