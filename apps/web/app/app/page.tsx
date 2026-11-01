@@ -14,7 +14,10 @@ export default async function WorkspacesPage() {
 
   return (
     <div className="relative min-h-dvh">
-      <div className="ink-wash pointer-events-none absolute inset-x-0 top-0 h-[32rem]" aria-hidden="true" />
+      <div
+        className="ink-wash pointer-events-none absolute inset-x-0 top-0 h-[32rem]"
+        aria-hidden="true"
+      />
       <div className="relative">
         <AppHeader actor={actor} />
 

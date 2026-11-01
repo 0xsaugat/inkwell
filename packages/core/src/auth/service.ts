@@ -9,13 +9,7 @@ import type {
 import { and, eq, gt, isNull, ne } from 'drizzle-orm'
 import type { ServiceDeps } from '../service-context'
 import { serviceClock } from '../service-context'
-import {
-  badRequest,
-  conflict,
-  emailFailed,
-  isUniqueViolation,
-  unauthorized,
-} from '../errors'
+import { badRequest, conflict, emailFailed, isUniqueViolation, unauthorized } from '../errors'
 import { escapeHtml } from '../mailer'
 import { consumeFakePasswordCheck, hashPassword, verifyPassword } from './password'
 import {

@@ -18,13 +18,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   transpilePackages: ['@inkwell/core', '@inkwell/db', '@inkwell/shared'],
-  serverExternalPackages: [
-    '@node-rs/argon2',
-    'nodemailer',
-    'pg',
-    'pino',
-    'pino-pretty',
-  ],
+  serverExternalPackages: ['@node-rs/argon2', 'nodemailer', 'pg', 'pino', 'pino-pretty'],
   async headers() {
     return [{ source: '/(.*)', headers: securityHeaders }]
   },

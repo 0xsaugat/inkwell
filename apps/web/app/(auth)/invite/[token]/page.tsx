@@ -9,11 +9,7 @@ import { getServices } from '@/lib/services'
 export const metadata: Metadata = { title: 'Workspace invite' }
 export const dynamic = 'force-dynamic'
 
-export default async function InvitePage({
-  params,
-}: {
-  params: Promise<{ token: string }>
-}) {
+export default async function InvitePage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = await params
   const actor = await getCurrentActor()
 
@@ -71,10 +67,9 @@ export default async function InvitePage({
         Join {preview.workspaceName}.
       </h1>
       <p className="mt-4 text-sm leading-6 text-ink-soft">
-        You have been invited as an{' '}
-        <strong className="font-medium text-ink">{preview.role}</strong>. This private link is for{' '}
-        <strong className="font-medium text-ink">{preview.email}</strong> and expires{' '}
-        {expiresLabel}.
+        You have been invited as an <strong className="font-medium text-ink">{preview.role}</strong>
+        . This private link is for <strong className="font-medium text-ink">{preview.email}</strong>{' '}
+        and expires {expiresLabel}.
       </p>
 
       <div className="mt-8 rounded-2xl border border-line bg-paper-raised p-5">
@@ -111,7 +106,8 @@ export default async function InvitePage({
           <div className="space-y-4">
             <p className="text-sm leading-6 text-ink-soft">
               You are signed in as <strong className="font-medium text-ink">{actor.email}</strong>,
-              but this invite belongs to <strong className="font-medium text-ink">{preview.email}</strong>.
+              but this invite belongs to{' '}
+              <strong className="font-medium text-ink">{preview.email}</strong>.
             </p>
             <SignOutButton
               redirectTo={invitePath}

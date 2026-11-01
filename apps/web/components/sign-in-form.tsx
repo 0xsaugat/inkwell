@@ -34,7 +34,9 @@ export function SignInForm({ next, email = '' }: { next: string; email?: string 
   return (
     <div>
       <p className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">Welcome back</p>
-      <h1 className="mt-3 font-serif text-4xl tracking-[-0.03em] sm:text-5xl">Pick up the thread.</h1>
+      <h1 className="mt-3 font-serif text-4xl tracking-[-0.03em] sm:text-5xl">
+        Pick up the thread.
+      </h1>
       <p className="mt-4 text-sm leading-6 text-ink-soft">
         Sign in to your workspace. Your notes are exactly where you left them.
       </p>

@@ -1,11 +1,5 @@
 import { expect, test } from '@playwright/test'
-import {
-  TEST_PASSWORD,
-  extractLinkPath,
-  signUp,
-  uniqueEmail,
-  waitForEmail,
-} from './helpers'
+import { TEST_PASSWORD, extractLinkPath, signUp, uniqueEmail, waitForEmail } from './helpers'
 
 test.setTimeout(60_000)
 

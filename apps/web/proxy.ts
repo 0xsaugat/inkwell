@@ -4,10 +4,7 @@ import { createCsrfToken, CSRF_COOKIE_NAME, csrfCookieOptions } from './lib/cook
 const CSRF_MAX_AGE_SECONDS = 30 * 24 * 60 * 60
 const PROTECTED_PREFIXES = ['/app', '/w/']
 
-function ensureCsrfCookie(
-  request: NextRequest,
-  response: NextResponse,
-): NextResponse {
+function ensureCsrfCookie(request: NextRequest, response: NextResponse): NextResponse {
   const existing = request.cookies.get(CSRF_COOKIE_NAME)?.value
 
   if (existing && /^[a-f0-9]{64}$/.test(existing)) {
@@ -15,8 +12,7 @@ function ensureCsrfCookie(
   }
 
   const secure =
-    request.nextUrl.protocol === 'https:' ||
-    request.headers.get('x-forwarded-proto') === 'https'
+    request.nextUrl.protocol === 'https:' || request.headers.get('x-forwarded-proto') === 'https'
 
   response.cookies.set(
     CSRF_COOKIE_NAME,

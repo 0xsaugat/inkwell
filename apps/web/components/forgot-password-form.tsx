@@ -33,7 +33,9 @@ export function ForgotPasswordForm() {
   if (sent) {
     return (
       <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">Check your email</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">
+          Check your email
+        </p>
         <h1 className="mt-3 font-serif text-4xl tracking-[-0.03em]">The link is on its way.</h1>
         <p className="mt-4 text-sm leading-6 text-ink-soft">
           If an Inkwell account exists for that address, a reset link will arrive shortly. It

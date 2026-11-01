@@ -98,8 +98,8 @@ flowchart LR
 
 ## Milestones
 
-- [ ] **M0 Foundations** — monorepo, strict TS, lint/format, env validation, compose, migrations, health, CI, docs skeleton.
-- [ ] **M1 Auth and workspaces** — sign-up/in/out, reset, workspaces, invites, roles, central authz, CSRF, rate limits.
+- [x] **M0 Foundations** — monorepo, strict TS, lint/format, env validation, compose, migrations, health, CI, docs skeleton.
+- [x] **M1 Auth and workspaces** — sign-up/in/out, reset, workspaces, invites, roles, central authz, CSRF, rate limits.
 - [ ] **M2 Hierarchy** — notebooks, colored sections, nested pages, drag/drop, rename, icon/cover, favorites, trash/restore.
 - [ ] **M3 Flow editor** — block suite, slash menu, markdown shortcuts, drag handles, page links, mentions, uploads, sanitization.
 - [ ] **M4 Collaboration** — presence, IndexedDB offline, reconnect merge, version history and restore.

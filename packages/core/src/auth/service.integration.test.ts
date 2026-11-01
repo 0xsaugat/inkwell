@@ -40,9 +40,9 @@ describe('auth service integration', () => {
     const email = uniqueEmail('signin')
     await auth.signUp({ name: 'Grace Hopper', email, password: 'compiler-1952' })
 
-    await expect(
-      auth.signIn({ email, password: 'wrong-password' }),
-    ).rejects.toMatchObject({ code: 'unauthorized' })
+    await expect(auth.signIn({ email, password: 'wrong-password' })).rejects.toMatchObject({
+      code: 'unauthorized',
+    })
 
     const signedIn = await auth.signIn({ email, password: 'compiler-1952' })
     await expect(auth.resolve(signedIn.session.token)).resolves.not.toBeNull()
@@ -66,9 +66,9 @@ describe('auth service integration', () => {
     await auth.resetPassword({ token, password: 'new-orbital-mechanics' })
 
     await expect(auth.resolve(signup.session.token)).resolves.toBeNull()
-    await expect(
-      auth.signIn({ email, password: 'orbital-mechanics' }),
-    ).rejects.toMatchObject({ code: 'unauthorized' })
+    await expect(auth.signIn({ email, password: 'orbital-mechanics' })).rejects.toMatchObject({
+      code: 'unauthorized',
+    })
 
     const signedIn = await auth.signIn({ email, password: 'new-orbital-mechanics' })
     expect(signedIn.user.email).toBe(email)

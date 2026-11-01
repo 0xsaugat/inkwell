@@ -68,10 +68,7 @@ export async function fillSignUp(
   await page.getByLabel('Confirm password', { exact: true }).fill(TEST_PASSWORD)
 }
 
-export async function signUp(
-  page: Page,
-  input: { name: string; email: string },
-): Promise<void> {
+export async function signUp(page: Page, input: { name: string; email: string }): Promise<void> {
   await page.goto('/signup')
   await fillSignUp(page, input)
   await page.getByRole('button', { name: 'Create account' }).click()

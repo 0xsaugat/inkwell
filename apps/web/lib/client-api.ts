@@ -54,7 +54,9 @@ export async function apiFetch<T>(url: string, init: RequestInit = {}): Promise<
   const payload = isJson ? ((await response.json()) as unknown) : null
 
   if (!response.ok) {
-    const body = payload as { error?: { code?: string; message?: string; details?: unknown } } | null
+    const body = payload as {
+      error?: { code?: string; message?: string; details?: unknown }
+    } | null
     throw new ApiError(
       response.status,
       body?.error?.code ?? 'request_failed',

@@ -61,9 +61,7 @@ export default function AuthLayout({ children }: Readonly<{ children: ReactNode 
             <div className="w-full max-w-md">{children}</div>
           </div>
 
-          <p className="text-center text-xs text-ink-soft">
-            Inkwell · notes for the messy middle
-          </p>
+          <p className="text-center text-xs text-ink-soft">Inkwell · notes for the messy middle</p>
         </section>
       </div>
     </main>

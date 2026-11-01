@@ -2,6 +2,56 @@
 
 Short architecture decision records. Newest first.
 
+## ADR-017 — NODE_ENV stays out of `.env`
+
+**Decision:** `.env` and `.env.example` do not define `NODE_ENV`. Next.js sets it for development and production, and the server environment schema defaults to development when it is absent.
+
+**Why:** An inherited `NODE_ENV=development` makes `next build` warn and fail while prerendering `/_global-error`, and it would force development behavior into a production start. Keeping the variable out of shared env files lets each tool choose its own mode and lets deployments set `NODE_ENV=production` explicitly.
+
+**Alternatives:** Hard-coding `NODE_ENV=production` in the build script (breaks dev tooling); requiring every developer to unset it manually (fragile and undocumented).
+
+## ADR-016 — Bundle workspace packages but externalize their runtime dependencies
+
+**Decision:** The realtime server bundles `@inkwell/*` packages with tsup, while externalizing `@node-rs/argon2`, `pg`, `nodemailer`, `dotenv`, `drizzle-orm`, and `zod`. Those packages are declared as direct server dependencies.
+
+**Why:** Workspace exports point at TypeScript source, so bundling avoids a separate build step for every package. Bundling the native Argon2 loader fails because esbuild tries to resolve every platform binary, and bundling CommonJS packages such as `pg` and `dotenv` into ESM produces unsupported dynamic `require` calls. Declaring the external packages on the server makes Node resolve them from its own `node_modules` in production. The built entrypoint was started with `node dist/index.js` and `/health` returned `200` with `db: "ok"`.
+
+**Alternatives:** Publish built artifacts for every workspace package (more build orchestration); emit CommonJS from tsup (avoids some dynamic requires but not native binaries and moves away from the rest of the stack); bundle platform-specific binaries (fragile across developer and deployment platforms).
+
+## ADR-015 — Argon2id baseline and numeric algorithm cast
+
+**Decision:** Hash passwords with Argon2id at 19,456 KiB memory, 2 iterations, and parallelism 1, passing `algorithm: 2 as Algorithm`.
+
+**Why:** These are the OWASP baseline parameters and the defaults for `@node-rs/argon2`. The package exposes `Algorithm` as an ambient `const enum`, which cannot be emitted at runtime under this TypeScript configuration, so the documented numeric value (`Argon2id = 2`) is cast to the type.
+
+**Alternatives:** A string algorithm name (not accepted by the library); default options without an explicit algorithm (relies on an implicit default); a pure-JS Argon2 implementation (slower and less audited).
+
+## ADR-014 — Double-submit CSRF token plus strict Origin validation
+
+**Decision:** A non-httpOnly `inkwell_csrf` cookie is issued by the Next.js proxy. Every mutating API request must send a matching `x-csrf-token` header and an `Origin` equal to `APP_URL`.
+
+**Why:** The header cannot be set by a cross-origin form or a simple image request. Comparing the token and origin gives two independent checks without server-side token storage. The cookie stays readable so the browser client can echo it.
+
+**Alternatives:** Synchronizer tokens stored server-side (more state and cleanup); relying on SameSite alone (not sufficient for every browser and request type); checking only Origin (misses same-site subdomain or proxy mistakes).
+
+## ADR-013 — Opaque, hashed, single-use tokens for sessions, resets, and invites
+
+**Decision:** Sessions, password resets, and workspace invites use random opaque tokens. Only SHA-256 hashes are stored. Reset tokens expire after 60 minutes, invites after 7 days, and both are single-use. Sessions last 30 days and are revoked on sign-out and password reset. Invite acceptance requires the signed-in email to match the invite.
+
+**Why:** A database leak cannot be replayed against the application, tokens can be revoked immediately, and storing hashes avoids the need for a JWT secret rotation strategy.
+
+**Alternatives:** Signed JWTs (revocation requires a denylist or short expiry); plaintext tokens in the database (leak becomes account takeover); long-lived reset links (larger window to exploit).
+
+## ADR-012 — In-memory rate limiting for the single-node v1
+
+**Decision:** Authentication, reset, workspace creation, and invite endpoints use fixed-window counters held in process memory, keyed by IP, email, or user.
+
+**Why:** The v1 deployment runs one web instance, and this avoids adding Redis or a database dependency for abuse protection. The counters are tested and easy to replace at the rate-limit boundary.
+
+**Revisit:** Before running multiple web instances or serverless replicas. Move counters to a shared store such as Redis or Postgres.
+
+**Alternatives:** Postgres-backed counters (write contention on every auth request); Redis now (extra infrastructure for a single-instance milestone).
+
 ## ADR-011 — ESLint 10 with jsx-a11y's ESLint 9 peer range
 
 **Decision:** Use ESLint 10 with `eslint-plugin-jsx-a11y@6.10.2`.

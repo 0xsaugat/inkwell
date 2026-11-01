@@ -52,10 +52,7 @@ export function conflict(message: string): AppError {
   return new AppError('conflict', 409, message)
 }
 
-export function validationError(
-  message: string,
-  details?: ErrorDetails,
-): AppError {
+export function validationError(message: string, details?: ErrorDetails): AppError {
   return new AppError('validation_error', 400, message, { details })
 }
 

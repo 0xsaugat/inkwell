@@ -79,10 +79,7 @@ export function createWorkspaceService(deps: ServiceDeps) {
         createdAt: schema.workspaces.createdAt,
       })
       .from(schema.workspaceMembers)
-      .innerJoin(
-        schema.workspaces,
-        eq(schema.workspaces.id, schema.workspaceMembers.workspaceId),
-      )
+      .innerJoin(schema.workspaces, eq(schema.workspaces.id, schema.workspaceMembers.workspaceId))
       .where(eq(schema.workspaceMembers.userId, actor.id))
       .orderBy(desc(schema.workspaces.updatedAt))
 
@@ -238,10 +235,7 @@ export function createWorkspaceService(deps: ServiceDeps) {
       .from(schema.workspaceMembers)
       .innerJoin(schema.users, eq(schema.users.id, schema.workspaceMembers.userId))
       .where(
-        and(
-          eq(schema.workspaceMembers.workspaceId, workspaceId),
-          eq(schema.users.email, email),
-        ),
+        and(eq(schema.workspaceMembers.workspaceId, workspaceId), eq(schema.users.email, email)),
       )
       .limit(1)
 
@@ -314,17 +308,11 @@ export function createWorkspaceService(deps: ServiceDeps) {
     return inviteView(invite)
   }
 
-  async function revokeInvite(
-    actor: Actor,
-    workspaceId: string,
-    inviteId: string,
-  ): Promise<void> {
+  async function revokeInvite(actor: Actor, workspaceId: string, inviteId: string): Promise<void> {
     await requireWorkspaceOwner(db, actor, workspaceId)
     const deleted = await db
       .delete(schema.invites)
-      .where(
-        and(eq(schema.invites.id, inviteId), eq(schema.invites.workspaceId, workspaceId)),
-      )
+      .where(and(eq(schema.invites.id, inviteId), eq(schema.invites.workspaceId, workspaceId)))
       .returning({ id: schema.invites.id })
 
     if (deleted.length === 0) {
@@ -484,11 +472,7 @@ export function createWorkspaceService(deps: ServiceDeps) {
       )
   }
 
-  async function removeMember(
-    actor: Actor,
-    workspaceId: string,
-    userId: string,
-  ): Promise<void> {
+  async function removeMember(actor: Actor, workspaceId: string, userId: string): Promise<void> {
     await requireWorkspaceOwner(db, actor, workspaceId)
 
     const targetRows = await db

@@ -8,7 +8,9 @@ function testDatabaseUrl(): string {
     return process.env.TEST_DATABASE_URL
   }
 
-  const base = new URL(process.env.DATABASE_URL ?? 'postgresql://inkwell:inkwell@localhost:5433/inkwell')
+  const base = new URL(
+    process.env.DATABASE_URL ?? 'postgresql://inkwell:inkwell@localhost:5433/inkwell',
+  )
   const databaseName = base.pathname.replace(/^\//, '')
   base.pathname = `/${databaseName}_test`
   return base.toString()

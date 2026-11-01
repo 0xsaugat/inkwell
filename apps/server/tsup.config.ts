@@ -9,4 +9,5 @@ export default defineConfig({
   clean: true,
   sourcemap: true,
   noExternal: [/^@inkwell\//],
+  external: ['@node-rs/argon2', 'nodemailer', 'pg'],
 })

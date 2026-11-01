@@ -115,16 +115,8 @@ export function setSessionCookies(
   const secure = cookieSecurity(env)
   const maxAge = Math.max(0, Math.floor((session.expiresAt.getTime() - Date.now()) / 1_000))
 
-  response.cookies.set(
-    env.AUTH_COOKIE_NAME,
-    session.token,
-    sessionCookieOptions(secure, maxAge),
-  )
-  response.cookies.set(
-    CSRF_COOKIE_NAME,
-    session.csrfToken,
-    csrfCookieOptions(secure, maxAge),
-  )
+  response.cookies.set(env.AUTH_COOKIE_NAME, session.token, sessionCookieOptions(secure, maxAge))
+  response.cookies.set(CSRF_COOKIE_NAME, session.csrfToken, csrfCookieOptions(secure, maxAge))
 }
 
 export function clearSessionCookies(response: NextResponse): void {

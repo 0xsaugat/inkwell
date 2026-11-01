@@ -1,12 +1,6 @@
 import { passwordResetConfirmSchema } from '@inkwell/shared'
 import { assertCsrf } from '@/lib/csrf'
-import {
-  apiHandler,
-  clearSessionCookies,
-  getRequestIp,
-  json,
-  parseJson,
-} from '@/lib/http'
+import { apiHandler, clearSessionCookies, getRequestIp, json, parseJson } from '@/lib/http'
 import { enforceRateLimit } from '@/lib/rate-limits'
 import { getServices } from '@/lib/services'
 

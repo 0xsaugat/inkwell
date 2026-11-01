@@ -1,17 +1,7 @@
-import {
-  memberUserIdSchema,
-  updateMemberRoleInputSchema,
-  workspaceIdSchema,
-} from '@inkwell/shared'
+import { memberUserIdSchema, updateMemberRoleInputSchema, workspaceIdSchema } from '@inkwell/shared'
 import { z } from 'zod'
 import { assertCsrf } from '@/lib/csrf'
-import {
-  apiHandler,
-  json,
-  parseJson,
-  parseParams,
-  requireApiActor,
-} from '@/lib/http'
+import { apiHandler, json, parseJson, parseParams, requireApiActor } from '@/lib/http'
 import { getServices } from '@/lib/services'
 
 const memberParamsSchema = z.object({

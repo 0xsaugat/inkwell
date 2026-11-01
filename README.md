@@ -2,9 +2,18 @@
 
 Inkwell is a note-taking workspace that pairs OneNote-style free-form thinking with Notion-style structured knowledge. Pages are built from containers that hold a collaborative block tree, so the same content can live as a focused document or on an infinite canvas.
 
-**Status:** Milestone 0 complete — foundations. See `PROGRESS.md` for the honest state of every milestone.
+**Status:** Milestone 1 complete — authentication and workspaces. See `PROGRESS.md` for the honest state of every milestone.
 
 ![Inkwell landing page](docs/screenshots/landing-desktop.png)
+
+## What works
+
+- Email/password accounts with Argon2id, cookie sessions, sign-out, and password reset through SMTP.
+- Workspaces with owners, editors, and viewers; emailed invites, role changes, member removal, and leaving.
+- A single authorization layer in `packages/core` for every workspace operation.
+- CSRF checks and rate limits on authentication, reset, workspace, and invite endpoints.
+
+![Workspace members and invite management](docs/screenshots/workspace-members.png)
 
 ## Stack
 
@@ -91,7 +100,7 @@ All variables are validated with zod at startup. Copy `.env.example` to `.env` f
 
 ## Testing
 
-Unit tests run without infrastructure. Playwright and integration tests require PostgreSQL and object storage from `docker compose up -d`.
+Unit tests run without infrastructure. Integration tests require PostgreSQL, and Playwright tests require PostgreSQL plus Mailpit from `docker compose up -d`.
 
 ```bash
 pnpm test
@@ -105,4 +114,4 @@ Documented in Milestone 10. Production will use two images (Next.js and realtime
 
 ## Known gaps
 
-See `PROGRESS.md`. At Milestone 0 the application has authentication, editors, canvas, databases, search, and sharing still ahead.
+See `PROGRESS.md`. Editors, canvas, databases, search, and sharing are still ahead. Rate limits are in-process only, email addresses are not verified, and ownership transfer is not implemented yet.

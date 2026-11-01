@@ -77,12 +77,12 @@ describe('workspace service integration', () => {
     await expect(
       workspaces.removeMember(viewer.user, workspace.id, owner.user.id),
     ).rejects.toMatchObject({ code: 'forbidden' })
-    await expect(
-      workspaces.deleteWorkspace(viewer.user, workspace.id),
-    ).rejects.toMatchObject({ code: 'forbidden' })
-    await expect(
-      requireWorkspaceWrite(db, viewer.user, workspace.id),
-    ).rejects.toMatchObject({ code: 'forbidden' })
+    await expect(workspaces.deleteWorkspace(viewer.user, workspace.id)).rejects.toMatchObject({
+      code: 'forbidden',
+    })
+    await expect(requireWorkspaceWrite(db, viewer.user, workspace.id)).rejects.toMatchObject({
+      code: 'forbidden',
+    })
   })
 
   it('lets an owner promote a viewer and remove members', async () => {
@@ -106,9 +106,9 @@ describe('workspace service integration', () => {
     ).rejects.toMatchObject({ code: 'forbidden' })
 
     await workspaces.removeMember(owner.user, workspace.id, member.user.id)
-    await expect(
-      workspaces.getWorkspaceDetail(member.user, workspace.id),
-    ).rejects.toMatchObject({ code: 'not_found' })
+    await expect(workspaces.getWorkspaceDetail(member.user, workspace.id)).rejects.toMatchObject({
+      code: 'not_found',
+    })
   })
 
   it('protects the owner role and validates invite ownership', async () => {
@@ -123,9 +123,9 @@ describe('workspace service integration', () => {
     await expect(
       workspaces.changeMemberRole(owner.user, workspace.id, owner.user.id, 'viewer'),
     ).rejects.toMatchObject({ code: 'forbidden' })
-    await expect(
-      workspaces.leaveWorkspace(owner.user, workspace.id),
-    ).rejects.toMatchObject({ code: 'forbidden' })
+    await expect(workspaces.leaveWorkspace(owner.user, workspace.id)).rejects.toMatchObject({
+      code: 'forbidden',
+    })
 
     await workspaces.createInvite(owner.user, workspace.id, {
       email: other.email,
@@ -141,14 +141,14 @@ describe('workspace service integration', () => {
     ).rejects.toMatchObject({ code: 'conflict' })
 
     const outsider = await signUp('guard-outsider')
-    await expect(
-      workspaces.acceptInvite(outsider.user, token),
-    ).rejects.toMatchObject({ code: 'forbidden' })
+    await expect(workspaces.acceptInvite(outsider.user, token)).rejects.toMatchObject({
+      code: 'forbidden',
+    })
 
     await workspaces.acceptInvite(other.user, token)
-    await expect(
-      workspaces.getWorkspaceDetail(other.user, workspace.id),
-    ).resolves.toMatchObject({ role: 'editor' })
+    await expect(workspaces.getWorkspaceDetail(other.user, workspace.id)).resolves.toMatchObject({
+      role: 'editor',
+    })
   })
 
   it('revokes invites and removes access when a member leaves', async () => {
@@ -180,9 +180,9 @@ describe('workspace service integration', () => {
     ).rejects.toMatchObject({ code: 'forbidden' })
 
     await workspaces.leaveWorkspace(invitee.user, workspace.id)
-    await expect(
-      workspaces.getWorkspaceDetail(invitee.user, workspace.id),
-    ).rejects.toMatchObject({ code: 'not_found' })
+    await expect(workspaces.getWorkspaceDetail(invitee.user, workspace.id)).rejects.toMatchObject({
+      code: 'not_found',
+    })
   })
 
   it('deletes a workspace for everyone when the owner asks', async () => {
@@ -194,19 +194,16 @@ describe('workspace service integration', () => {
       email: member.email,
       role: 'editor',
     })
-    await workspaces.acceptInvite(
-      member.user,
-      extractInviteToken(mailer.lastTo(member.email).text),
-    )
+    await workspaces.acceptInvite(member.user, extractInviteToken(mailer.lastTo(member.email).text))
 
     await workspaces.deleteWorkspace(owner.user, workspace.id)
 
-    await expect(
-      workspaces.getWorkspaceDetail(owner.user, workspace.id),
-    ).rejects.toMatchObject({ code: 'not_found' })
-    await expect(
-      workspaces.getWorkspaceDetail(member.user, workspace.id),
-    ).rejects.toMatchObject({ code: 'not_found' })
+    await expect(workspaces.getWorkspaceDetail(owner.user, workspace.id)).rejects.toMatchObject({
+      code: 'not_found',
+    })
+    await expect(workspaces.getWorkspaceDetail(member.user, workspace.id)).rejects.toMatchObject({
+      code: 'not_found',
+    })
     await expect(workspaces.listWorkspaces(owner.user)).resolves.toEqual([])
   })
 })

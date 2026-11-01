@@ -73,10 +73,8 @@ export default async function WorkspacePage({
                 {detail.workspace.name}
               </h1>
               <p className="mt-4 text-sm text-ink-soft">
-                {detail.members.length === 1
-                  ? '1 member'
-                  : `${detail.members.length} members`}{' '}
-                · created {createdLabel}
+                {detail.members.length === 1 ? '1 member' : `${detail.members.length} members`} ·
+                created {createdLabel}
               </p>
             </div>
 
@@ -129,10 +127,7 @@ export default async function WorkspacePage({
                         className="flex h-32 w-20 flex-col gap-2 rounded-t-xl border border-paper/10 bg-paper/5 p-3"
                         style={{ transform: `translateY(${index * 8}px)` }}
                       >
-                        <span
-                          className="h-2 w-8 rounded-full"
-                          style={{ backgroundColor: color }}
-                        />
+                        <span className="h-2 w-8 rounded-full" style={{ backgroundColor: color }} />
                         <span className="h-1.5 w-full rounded-full bg-paper/25" />
                         <span className="h-1.5 w-3/4 rounded-full bg-paper/20" />
                         <span className="h-1.5 w-5/6 rounded-full bg-paper/15" />
